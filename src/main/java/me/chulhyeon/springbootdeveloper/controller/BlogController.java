@@ -8,10 +8,7 @@ import me.chulhyeon.springbootdeveloper.dto.ArticleResponse;
 import me.chulhyeon.springbootdeveloper.service.BlogService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -33,10 +30,22 @@ public class BlogController {
         log.info("api findAll 호출");
         List<ArticleResponse> articles = blogService.findAll()
                 .stream()
-                .map(article -> new ArticleResponse(article.getTitle(), article.getContent()))
+                .map(ArticleResponse::new)
                 .toList();
 
         return ResponseEntity.ok()
                 .body(articles);
+    }
+    @GetMapping("/api/articles/{id}")
+    public ResponseEntity<ArticleResponse> getArticle(@PathVariable("id") Long id) {
+        Article findArticle = blogService.findById(id);
+
+        return ResponseEntity.ok()
+                .body(new ArticleResponse(findArticle));
+    }
+    @DeleteMapping("/api/articles/{id}")
+    public ResponseEntity<Void> deleteArticle(@PathVariable("id") Long id) {
+        blogService.deleteById(id);
+        return ResponseEntity.ok().build();
     }
 }

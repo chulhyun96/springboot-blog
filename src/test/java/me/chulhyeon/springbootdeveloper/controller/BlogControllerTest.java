@@ -19,8 +19,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.util.List;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -70,7 +69,7 @@ class BlogControllerTest {
         Assertions.assertThat(articles.get(0).getContent()).isEqualTo(userRequest.getContent());
     }
 
-    @DisplayName("findAllArticles : 블로그 글 목록 조회에 성공한다.")
+    @DisplayName("findAllArticles : 블로그 글 전체목록 조회에 성공한다.")
     @Test
     void findAllArticles() throws Exception {
         // given
@@ -91,5 +90,46 @@ class BlogControllerTest {
                 .andExpect(jsonPath("$[0].content").value(content))
                 .andExpect(jsonPath("$[0].title").value(title));
     }
+    @DisplayName("getArticle: 블로그 글 조회에 성공한다")
+    @Test
+    void getArticle() throws Exception {
+        // given
+        final String url = "/api/articles/{id}";
+        final String title = "getArticle title 조회";
+        final String content = "getArticle Content 조회";
 
+        Article saved = blogRepository.save(Article.builder()
+                .title(title)
+                .content(content)
+                .build());
+
+        // when
+        final ResultActions result = mockMvc.perform(get(url, saved.getId()));
+
+        // then
+        result.andExpect(status().isOk())
+                .andExpect(jsonPath("$.content").value(content))
+                .andExpect(jsonPath("$.title").value(title));
+
+    }
+    @DisplayName("deleteArticle : 블로그 글 삭제")
+    @Test
+    void deleteArticle() throws Exception {
+        // given
+        final String url = "/api/articles/{id}";
+        final String title = "Delete Article title";
+        final String content = "Delete Article content";
+
+        Article deleteArticle = blogRepository.save(Article.builder()
+                .title(title)
+                .content(content)
+                .build());
+        // when
+        mockMvc.perform(delete(url, deleteArticle.getId()));
+        List<Article> articles = blogRepository.findAll();
+
+
+        // then
+        Assertions.assertThat(articles).isEmpty();
+    }
 }
