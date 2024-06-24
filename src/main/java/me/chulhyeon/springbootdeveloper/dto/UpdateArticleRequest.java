@@ -1,15 +1,13 @@
 package me.chulhyeon.springbootdeveloper.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 @NoArgsConstructor
-@RequiredArgsConstructor
+@AllArgsConstructor
 @Getter
 public class UpdateArticleRequest {
     private String title;
     private String content;
-
-
 }

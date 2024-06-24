@@ -21,15 +21,15 @@ public class Article {
     @Column(name = "content", nullable = false)
     private String content;
 
-    //Article Entity, Article Domain의 책임??
     @Builder
     public Article(String title, String content) {
         this.title = title;
         this.content = content;
     }
 
-    public void update(String title, String content) {
+    public Article update(String title, String content) {
         this.title = title;
         this.content = content;
+        return this;
     }
 }
