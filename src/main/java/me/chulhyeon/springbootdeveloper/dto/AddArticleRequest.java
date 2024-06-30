@@ -9,7 +9,6 @@ import me.chulhyeon.springbootdeveloper.domain.Article;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AddArticleRequest {
-    private Long id;
     private String title;
     private String content;
 

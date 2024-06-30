@@ -35,7 +35,6 @@ public class Article {
 
     @Builder
     public Article(String title, String content) {
-        this.id++;
         this.title = title;
         this.content = content;
         this.createdAt = LocalDateTime.now();
