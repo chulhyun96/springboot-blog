@@ -37,6 +37,7 @@ public class BlogViewController {
         model.addAttribute("article", new ArticleListViewResponse(article));
         return "article";
     }
+
     @GetMapping("/new-article")
     public String newArticle(@RequestParam(name = "id",required = false) Long id, Model model) {
         if (id == null) {
@@ -46,7 +47,7 @@ public class BlogViewController {
         } else {
             // 얘는 수정 버튼을 누르면 작동함.
             // 디테일 페이지 들어가면 작동함.
-            log.info("상세 페이지");
+            log.info("수정 페이지");
             Article article = blogService.findById(id);
             model.addAttribute("article", new ArticleViewResponse(article));
         }

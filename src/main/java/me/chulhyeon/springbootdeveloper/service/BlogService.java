@@ -1,5 +1,6 @@
 package me.chulhyeon.springbootdeveloper.service;
 
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import me.chulhyeon.springbootdeveloper.domain.Article;
 import me.chulhyeon.springbootdeveloper.dto.AddArticleRequest;
@@ -15,6 +16,13 @@ import java.util.List;
 public class BlogService {
     private final BlogRepository blogRepository;
 
+    @PostConstruct
+    public void init() {
+        for (int i = 0; i < 5; i++) {
+            AddArticleRequest dummy = new AddArticleRequest("제목"+i, "내용" + i);
+            blogRepository.save(dummy.toEntity());
+        }
+    }
     public Article save(AddArticleRequest request) {
         return blogRepository.save(request.toEntity());
     }
