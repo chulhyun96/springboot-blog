@@ -18,7 +18,7 @@ public class BlogService {
 
     @PostConstruct
     public void init() {
-        for (int i = 0; i < 5; i++) {
+        for (int i = 1; i <= 5; i++) {
             AddArticleRequest dummy = new AddArticleRequest("제목"+i, "내용" + i);
             blogRepository.save(dummy.toEntity());
         }

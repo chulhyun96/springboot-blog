@@ -31,6 +31,7 @@ public class BlogController {
     @GetMapping("/api/articles")
     public ResponseEntity<List<ArticleResponse>> findAllArticles() {
         log.info("api findAll 호출");
+
         List<ArticleResponse> articles = blogService.findAll()
                 .stream()
                 .map(ArticleResponse::new)
@@ -53,6 +54,7 @@ public class BlogController {
     @PutMapping("/api/articles/{id}")
     public ResponseEntity<Article> updateArticle(@PathVariable("id") Long id, @RequestBody UpdateArticleRequest request) {
         Article updateArticle = blogService.update(id, request);
+        log.info("수정 시각 = {}", updateArticle.getUpdatedAt() );
         return ResponseEntity.ok()
                 .body(updateArticle);
     }
